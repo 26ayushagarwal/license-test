@@ -6,63 +6,29 @@
     <title>Cynovva Subscription Checkout</title>
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
-        const CONFIG = {
-            clientToken: "test_28af2cb8c380a412723424b84f1",
-            prices: {
-                basic: {
-                    month: "pri_01jpmhhq1prrrtchrt1wrk88n5",
-                    year: "pri_01jpmhna7p1etevk3j2e6jh9gh"
-                },
-                pro: {
-                    month: "pri_01jpmhpnhvz6vsja9gvge3kc2q",
-                    year: "pri_01jpmhq6s6k6xhjc27sf3bty48"
-                }
-            }
-        };
-
         document.addEventListener("DOMContentLoaded", function () {
             Paddle.Setup({ vendor: 28796 });
             console.log("Paddle Initialized Successfully");
         });
 
-        function openCheckout(plan, cycle) {
-            const priceId = CONFIG.prices[plan]?.[cycle];
+        function openCheckout(priceId) {
             if (!priceId) {
-                alert("Error: Invalid plan or billing cycle!");
+                alert("Error: Invalid price ID!");
                 return;
             }
-
             console.log("Opening checkout for Price ID:", priceId);
-            Paddle.Checkout.open({ price: priceId, passthrough: JSON.stringify({ plan, cycle }) });
+            Paddle.Checkout.open({ price: priceId });
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("basic", "month");
-            });
-
-            document.getElementById("basic-annual").addEventListener("click", function() {
-                openCheckout("basic", "year");
-            });
-
-            document.getElementById("pro-monthly").addEventListener("click", function() {
-                openCheckout("pro", "month");
-            });
-
-            document.getElementById("pro-annual").addEventListener("click", function() {
-                openCheckout("pro", "year");
-            });
-        });
     </script>
 </head>
 <body>
     <h2>Subscribe to Cynovva</h2>
     <p>Select a plan to subscribe:</p>
 
-    <button id="basic-monthly">Subscribe to Basic - Monthly</button>
-    <button id="basic-annual">Subscribe to Basic - Annual</button>
-    <button id="pro-monthly">Subscribe to Pro - Monthly</button>
-    <button id="pro-annual">Subscribe to Pro - Annual</button>
+    <button onclick="openCheckout('pri_01jpmhhq1prrrtchrt1wrk88n5')">Subscribe to Basic - Monthly</button>
+    <button onclick="openCheckout('pri_01jpmhna7p1etevk3j2e6jh9gh')">Subscribe to Basic - Annual</button>
+    <button onclick="openCheckout('pri_01jpmhpnhvz6vsja9gvge3kc2q')">Subscribe to Pro - Monthly</button>
+    <button onclick="openCheckout('pri_01jpmhq6s6k6xhjc27sf3bty48')">Subscribe to Pro - Annual</button>
 
     <p><small>Note: This is a test page using Paddle's Sandbox mode.</small></p>
 </body>
