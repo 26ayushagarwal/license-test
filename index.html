@@ -7,20 +7,20 @@
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Initialize Paddle with your Vendor ID
-		Paddle.Environment.set('sandbox');
-            Paddle.Setup({ vendor: 28796 });  // Replace with your actual Vendor ID
+            // Initialize Paddle with Vendor ID
+            Paddle.Setup({ vendor: 28796 });
 
-            // Function to trigger Paddle checkout with the correct price ID
+            // Function to trigger Paddle checkout with correct Price ID
             function openCheckout(priceId) {
                 if (!priceId) {
                     alert("Error: Price ID is missing!");
                     return;
                 }
+                console.log("Opening checkout for Price ID:", priceId);
                 Paddle.Checkout.open({ price: priceId });
             }
 
-            // Attach event listeners to buttons (Ensure correct Price IDs!)
+            // Attach event listeners to buttons
             document.getElementById("basic-monthly").addEventListener("click", function() {
                 openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");  // Replace with actual Price ID
             });
