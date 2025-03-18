@@ -19,24 +19,8 @@
 
             console.log("Opening checkout for Price ID:", priceId);
 
-            // Debug Paddle API Call
-            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/prices/${priceId}/checkout-url`, {
-                method: "POST",
-                headers: { "Authorization": "Bearer YOUR_PADDLE_SANDBOX_API_KEY" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Paddle API Response:", data);
-                if (data.url) {
-                    window.location.href = data.url; // Open checkout URL
-                } else {
-                    alert("Paddle checkout failed: " + JSON.stringify(data));
-                }
-            })
-            .catch(error => console.error("Paddle API Error:", error));
-
-            // Paddle JS Checkout
-            Paddle.Checkout.open({ price: priceId }); // ✅ Use Price ID
+            // ✅ No direct API call to Paddle - Just open checkout
+            Paddle.Checkout.open({ price: priceId });
         }
 
         document.addEventListener("DOMContentLoaded", function () {
