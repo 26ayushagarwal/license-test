@@ -6,15 +6,14 @@
     <title>Cynovva Subscription Checkout</title>
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
-        // Enable Sandbox Mode
-        Paddle.Environment.set("sandbox");
-
-        // Initialize Paddle with Client Token
-        Paddle.Initialize({
-            token: "test_28af2cb8c380a412723424b84f1" // Replace with your real Client Token
+        // ✅ Correct Paddle Setup (NO Client Token Needed)
+        document.addEventListener("DOMContentLoaded", function () {
+            Paddle.Environment.set("sandbox");  // Use Sandbox mode
+            Paddle.Setup({ vendor: 28796 });  // Replace with your actual Vendor ID
+            console.log("✅ Paddle Initialized Successfully");
         });
 
-        // Define Subscription Plans
+        // ✅ Define Subscription Plans (With Correct Price IDs)
         const CONFIG = {
             basic: {
                 month: { priceId: "pri_01jpmhhq1prrrtchrt1wrk88n5", quantity: 1 },
@@ -26,16 +25,16 @@
             }
         };
 
-        // Open Paddle Checkout with Selected Plan
+        // ✅ Open Paddle Checkout Overlay
         function openCheckout(plan, cycle) {
             const item = CONFIG[plan]?.[cycle];
             if (!item) {
                 alert("Error: Invalid plan or billing cycle!");
                 return;
             }
-            console.log("Opening checkout for:", item);
+            console.log("🛒 Opening checkout for:", item);
             Paddle.Checkout.open({
-                items: [item] // Must be an array
+                items: [item]  // Must be an array
             });
         }
     </script>
