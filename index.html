@@ -17,6 +17,7 @@
                     return;
                 }
                 console.log("Opening checkout for Price ID:", priceId);
+		    console.log("Paddle Vendor ID:", Paddle.vendor);
                 Paddle.Checkout.open({ price: priceId });
             }
 
