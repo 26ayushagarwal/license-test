@@ -7,44 +7,44 @@
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            Paddle.Setup({ vendor: 28796 }); // ✅ FIXED: Vendor ID must be an integer
+            Paddle.Setup({ vendor: 28796 }); // Vendor ID as integer
             console.log("Paddle Initialized Successfully");
         });
 
-        function openCheckout(priceId) {
-            if (!priceId) {
-                alert("Error: Price ID is missing!");
+        function openCheckout(productId) {
+            if (!productId) {
+                alert("Error: Product ID is missing!");
                 return;
             }
 
-            console.log("Opening checkout for Price ID:", priceId);
+            console.log("Opening checkout for Product ID:", productId);
 
             // Debug Paddle API Call
-            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/product/${priceId}`, {
+            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/product/${productId}`, {
                 method: "GET"
             })
             .then(response => response.json())
             .then(data => console.log("Paddle Response:", data))
             .catch(error => console.error("Paddle API Error:", error));
 
-            Paddle.Checkout.open({ price: priceId });
+            Paddle.Checkout.open({ product: productId }); // ✅ Use Product ID instead of Price ID
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");  // Replace with actual Price ID
+                openCheckout("pro_01jpmh84d29tyvjsqcczd0wpys");  // Replace with actual Product ID
             });
 
             document.getElementById("basic-annual").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
             });
 
             document.getElementById("pro-monthly").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
             });
 
             document.getElementById("pro-annual").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
             });
         });
     </script>
@@ -53,10 +53,10 @@
     <h2>Subscribe to Cynovva</h2>
     <p>Select a plan to subscribe:</p>
 
-    <button id="basic-monthly">Subscribe to Basic - Monthly ($49)</button>
-    <button id="basic-annual">Subscribe to Basic - Annual ($499)</button>
-    <button id="pro-monthly">Subscribe to Pro - Monthly ($99)</button>
-    <button id="pro-annual">Subscribe to Pro - Annual ($999)</button>
+    <button id="basic-monthly">Subscribe to Basic - Monthly</button>
+    <button id="basic-annual">Subscribe to Basic - Annual</button>
+    <button id="pro-monthly">Subscribe to Pro - Monthly</button>
+    <button id="pro-annual">Subscribe to Pro - Annual</button>
 
     <p><small>Note: This is a test page using Paddle's Sandbox mode.</small></p>
 </body>
