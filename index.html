@@ -3,29 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cynovva License Testing</title>
+    <title>Cynovva Subscription Checkout</title>
+    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize Paddle with your Vendor ID
+            Paddle.Setup({ vendor: 28796 });
+
+            // Function to trigger Paddle checkout with correct price_id
+            function openCheckout(priceId) {
+                Paddle.Checkout.open({ price: priceId });
+            }
+
+            // Attach event listeners to buttons
+            document.getElementById("basic-monthly").addEventListener("click", function() {
+                openCheckout(pri_01jpmhhq1prrrtchrt1wrk88n5);
+            });
+
+            document.getElementById("basic-annual").addEventListener("click", function() {
+                openCheckout(pri_01jpmhna7p1etevk3j2e6jh9gh);
+            });
+
+            document.getElementById("pro-monthly").addEventListener("click", function() {
+                openCheckout(pri_01jpmhpnhvz6vsja9gvge3kc2q);
+            });
+
+            document.getElementById("pro-annual").addEventListener("click", function() {
+                openCheckout(pri_01jpmhq6s6k6xhjc27sf3bty48);
+            });
+        });
+    </script>
 </head>
 <body>
-    <h2>Cynovva Subscription Test</h2>
-    <p>Select a plan to test:</p>
+    <h2>Subscribe to Cynovva</h2>
+    <p>Select a plan to subscribe:</p>
 
-    <button onclick="window.location.href='https://checkout.stripe.com/test_basic_monthly'">
-        Subscribe to Basic - Monthly
-    </button>
+    <button id="basic-monthly">Subscribe to Basic - Monthly ($49)</button>
+    <button id="basic-annual">Subscribe to Basic - Annual ($499)</button>
+    <button id="pro-monthly">Subscribe to Pro - Monthly ($99)</button>
+    <button id="pro-annual">Subscribe to Pro - Annual ($999)</button>
 
-    <button onclick="window.location.href='https://checkout.stripe.com/test_basic_annual'">
-        Subscribe to Basic - Annual
-    </button>
-
-    <button onclick="window.location.href='https://checkout.stripe.com/test_pro_monthly'">
-        Subscribe to Pro - Monthly
-    </button>
-
-    <button onclick="window.location.href='https://checkout.stripe.com/test_pro_annual'">
-        Subscribe to Pro - Annual
-    </button>
-
-    <p><small>Note: This is a test page. Payments will not be processed.</small></p>
+    <p><small>Note: This is a test page using Paddle's Sandbox mode.</small></p>
 </body>
 </html>
 
