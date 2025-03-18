@@ -6,38 +6,51 @@
     <title>Cynovva Subscription Checkout</title>
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
+        const CONFIG = {
+            clientToken: "test_28af2cb8c380a412723424b84f1",
+            prices: {
+                basic: {
+                    month: "pri_01jpmhhq1prrrtchrt1wrk88n5",
+                    year: "pri_01jpmhna7p1etevk3j2e6jh9gh"
+                },
+                pro: {
+                    month: "pri_01jpmhpnhvz6vsja9gvge3kc2q",
+                    year: "pri_01jpmhq6s6k6xhjc27sf3bty48"
+                }
+            }
+        };
+
         document.addEventListener("DOMContentLoaded", function () {
-            Paddle.Setup({ vendor: 28796 }); // ✅ Vendor ID must be an integer
+            Paddle.Setup({ vendor: 28796 });
             console.log("Paddle Initialized Successfully");
         });
 
-        function openCheckout(priceId) {
+        function openCheckout(plan, cycle) {
+            const priceId = CONFIG.prices[plan]?.[cycle];
             if (!priceId) {
-                alert("Error: Price ID is missing!");
+                alert("Error: Invalid plan or billing cycle!");
                 return;
             }
 
             console.log("Opening checkout for Price ID:", priceId);
-
-            // ✅ No direct API call to Paddle - Just open checkout
-            Paddle.Checkout.open({ price: priceId });
+            Paddle.Checkout.open({ price: priceId, passthrough: JSON.stringify({ plan, cycle }) });
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");  // Replace with actual Price ID
+                openCheckout("basic", "month");
             });
 
             document.getElementById("basic-annual").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("basic", "year");
             });
 
             document.getElementById("pro-monthly").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("pro", "month");
             });
 
             document.getElementById("pro-annual").addEventListener("click", function() {
-                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
+                openCheckout("pro", "year");
             });
         });
     </script>
