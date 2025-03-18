@@ -8,28 +8,32 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Initialize Paddle with your Vendor ID
-            Paddle.Setup({ vendor: 28796 });
+            Paddle.Setup({ vendor: "28796" });  // Replace with your actual Vendor ID
 
-            // Function to trigger Paddle checkout with correct price_id
+            // Function to trigger Paddle checkout with the correct price ID
             function openCheckout(priceId) {
+                if (!priceId) {
+                    alert("Error: Price ID is missing!");
+                    return;
+                }
                 Paddle.Checkout.open({ price: priceId });
             }
 
-            // Attach event listeners to buttons
+            // Attach event listeners to buttons (Ensure correct Price IDs!)
             document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");
+                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");  // Replace with actual Price ID
             });
 
             document.getElementById("basic-annual").addEventListener("click", function() {
-                openCheckout("pri_01jpmhna7p1etevk3j2e6jh9gh");
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
 
             document.getElementById("pro-monthly").addEventListener("click", function() {
-                openCheckout("pri_01jpmhpnhvz6vsja9gvge3kc2q");
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
 
             document.getElementById("pro-annual").addEventListener("click", function() {
-                openCheckout("pri_01jpmhq6s6k6xhjc27sf3bty48");
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
         });
     </script>
