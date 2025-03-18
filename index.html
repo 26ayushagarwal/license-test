@@ -7,32 +7,32 @@
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(() => {
-                Paddle.Setup({ vendor: "28796" });
-                console.log("Paddle Initialized Successfully");
-            }, 1000);  // Delay ensures Paddle.js is fully loaded
+            Paddle.Setup({ vendor: 28796 }); // ✅ FIXED: Vendor ID must be an integer
+            console.log("Paddle Initialized Successfully");
+        });
 
-            function openCheckout(priceId) {
-                if (!priceId) {
-                    alert("Error: Price ID is missing!");
-                    return;
-                }
-
-                console.log("Opening checkout for Price ID:", priceId);
-
-                // Debug Paddle API Call
-                fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/product/${priceId}`, {
-                    method: "GET"
-                })
-                .then(response => response.json())
-                .then(data => console.log("Paddle Response:", data))
-                .catch(error => console.error("Paddle API Error:", error));
-
-                Paddle.Checkout.open({ price: priceId });
+        function openCheckout(priceId) {
+            if (!priceId) {
+                alert("Error: Price ID is missing!");
+                return;
             }
 
+            console.log("Opening checkout for Price ID:", priceId);
+
+            // Debug Paddle API Call
+            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/product/${priceId}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => console.log("Paddle Response:", data))
+            .catch(error => console.error("Paddle API Error:", error));
+
+            Paddle.Checkout.open({ price: priceId });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
 
             document.getElementById("basic-annual").addEventListener("click", function() {
