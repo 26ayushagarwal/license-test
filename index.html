@@ -7,44 +7,53 @@
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            Paddle.Setup({ vendor: 28796 }); // Vendor ID as integer
+            Paddle.Setup({ vendor: 28796 }); // ✅ Vendor ID must be an integer
             console.log("Paddle Initialized Successfully");
         });
 
-        function openCheckout(productId) {
-            if (!productId) {
-                alert("Error: Product ID is missing!");
+        function openCheckout(priceId) {
+            if (!priceId) {
+                alert("Error: Price ID is missing!");
                 return;
             }
 
-            console.log("Opening checkout for Product ID:", productId);
+            console.log("Opening checkout for Price ID:", priceId);
 
             // Debug Paddle API Call
-            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/product/${productId}`, {
-                method: "GET"
+            fetch(`https://sandbox-checkout-service.paddle.com/create/v2/checkout/prices/${priceId}/checkout-url`, {
+                method: "POST",
+                headers: { "Authorization": "Bearer YOUR_PADDLE_SANDBOX_API_KEY" }
             })
             .then(response => response.json())
-            .then(data => console.log("Paddle Response:", data))
+            .then(data => {
+                console.log("Paddle API Response:", data);
+                if (data.url) {
+                    window.location.href = data.url; // Open checkout URL
+                } else {
+                    alert("Paddle checkout failed: " + JSON.stringify(data));
+                }
+            })
             .catch(error => console.error("Paddle API Error:", error));
 
-            Paddle.Checkout.open({ product: productId }); // ✅ Use Product ID instead of Price ID
+            // Paddle JS Checkout
+            Paddle.Checkout.open({ price: priceId }); // ✅ Use Price ID
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("basic-monthly").addEventListener("click", function() {
-                openCheckout("pro_01jpmh84d29tyvjsqcczd0wpys");  // Replace with actual Product ID
+                openCheckout("pri_01jpmhhq1prrrtchrt1wrk88n5");  // Replace with actual Price ID
             });
 
             document.getElementById("basic-annual").addEventListener("click", function() {
-                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
 
             document.getElementById("pro-monthly").addEventListener("click", function() {
-                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
 
             document.getElementById("pro-annual").addEventListener("click", function() {
-                openCheckout("prod_xxxxxxxxxxxxxxxx");  // Replace with actual Product ID
+                openCheckout("pri_xxxxxxxxxxxxxxxx");  // Replace with actual Price ID
             });
         });
     </script>
