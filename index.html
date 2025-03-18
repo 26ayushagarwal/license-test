@@ -6,18 +6,37 @@
     <title>Cynovva Subscription Checkout</title>
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            Paddle.Setup({ vendor: 28796 });
-            console.log("Paddle Initialized Successfully");
+        // Enable Sandbox Mode
+        Paddle.Environment.set("sandbox");
+
+        // Initialize Paddle with Client Token
+        Paddle.Initialize({
+            token: "test_28af2cb8c380a412723424b84f1" // Replace with your real Client Token
         });
 
-        function openCheckout(priceId) {
-            if (!priceId) {
-                alert("Error: Invalid price ID!");
+        // Define Subscription Plans
+        const CONFIG = {
+            basic: {
+                month: { priceId: "pri_01jpmhhq1prrrtchrt1wrk88n5", quantity: 1 },
+                year: { priceId: "pri_01jpmhna7p1etevk3j2e6jh9gh", quantity: 1 }
+            },
+            pro: {
+                month: { priceId: "pri_01jpmhpnhvz6vsja9gvge3kc2q", quantity: 1 },
+                year: { priceId: "pri_01jpmhq6s6k6xhjc27sf3bty48", quantity: 1 }
+            }
+        };
+
+        // Open Paddle Checkout with Selected Plan
+        function openCheckout(plan, cycle) {
+            const item = CONFIG[plan]?.[cycle];
+            if (!item) {
+                alert("Error: Invalid plan or billing cycle!");
                 return;
             }
-            console.log("Opening checkout for Price ID:", priceId);
-            Paddle.Checkout.open({ price: priceId });
+            console.log("Opening checkout for:", item);
+            Paddle.Checkout.open({
+                items: [item] // Must be an array
+            });
         }
     </script>
 </head>
@@ -25,10 +44,10 @@
     <h2>Subscribe to Cynovva</h2>
     <p>Select a plan to subscribe:</p>
 
-    <button onclick="openCheckout('pri_01jpmhhq1prrrtchrt1wrk88n5')">Subscribe to Basic - Monthly</button>
-    <button onclick="openCheckout('pri_01jpmhna7p1etevk3j2e6jh9gh')">Subscribe to Basic - Annual</button>
-    <button onclick="openCheckout('pri_01jpmhpnhvz6vsja9gvge3kc2q')">Subscribe to Pro - Monthly</button>
-    <button onclick="openCheckout('pri_01jpmhq6s6k6xhjc27sf3bty48')">Subscribe to Pro - Annual</button>
+    <button onclick="openCheckout('basic', 'month')">Subscribe to Basic - Monthly</button>
+    <button onclick="openCheckout('basic', 'year')">Subscribe to Basic - Annual</button>
+    <button onclick="openCheckout('pro', 'month')">Subscribe to Pro - Monthly</button>
+    <button onclick="openCheckout('pro', 'year')">Subscribe to Pro - Annual</button>
 
     <p><small>Note: This is a test page using Paddle's Sandbox mode.</small></p>
 </body>
