@@ -6,11 +6,19 @@
     <title>Cynovva Subscription Checkout</title>
     <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
     <script>
-        // ✅ Correct Paddle Setup (NO Client Token Needed)
         document.addEventListener("DOMContentLoaded", function () {
             Paddle.Environment.set("sandbox");  // Use Sandbox mode
             Paddle.Setup({ vendor: 28796 });  // Replace with your actual Vendor ID
             console.log("✅ Paddle Initialized Successfully");
+
+            // ✅ Auto-Trigger Checkout if URL contains _ptxn
+            const urlParams = new URLSearchParams(window.location.search);
+            const transactionId = urlParams.get("_ptxn");
+
+            if (transactionId) {
+                console.log("🔄 Auto-opening Paddle Checkout for Transaction:", transactionId);
+                Paddle.Checkout.open({ transaction: transactionId });
+            }
         });
 
         // ✅ Define Subscription Plans (With Correct Price IDs)
